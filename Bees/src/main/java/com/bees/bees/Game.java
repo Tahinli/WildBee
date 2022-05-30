@@ -17,7 +17,6 @@ public class Game {
         Main menu = new Main();
         WordPicker wordPicker = new WordPicker();
         //Definitions
-        int point = 0;
         System.out.println("Kelime= "+gWord);
         System.out.println("Ortdaki= "+middle);
         gWord.deleteCharAt(gWord.indexOf(middle.toString()));
@@ -44,7 +43,7 @@ public class Game {
         Button btReload = new Button("Reload");
         Button btMain = new Button("Main Menu");
         Label showError = new Label("Welcome To The Our Game");
-        Label lbPoint = new Label(Integer.toString(point));
+        Label lbPoint = new Label();
         Label lbPText = new Label("Your Point");
         Label lbP = new Label("Beginner");
         TextField uTxt = new TextField();
@@ -66,6 +65,21 @@ public class Game {
         rTxt.setEditable(false);
         uTxt.clear();
         rTxt.clear();
+        btm.setStyle("-fx-text-fill: WHITE");
+        btm.setStyle("-fx-font-weight: Bold");
+        bt1.setStyle("-fx-font-weight: Bold");
+        bt2.setStyle("-fx-font-weight: Bold");
+        bt3.setStyle("-fx-font-weight: Bold");
+        bt4.setStyle("-fx-font-weight: Bold");
+        bt5.setStyle("-fx-font-weight: Bold");
+        bt6.setStyle("-fx-font-weight: Bold");
+        btEnter.setStyle("-fx-font-weight: Bold");
+        btDelete.setStyle("-fx-font-weight: Bold");
+        btShuffle.setStyle("-fx-font-weight: Bold");
+        btClear.setStyle("-fx-font-weight: Bold");
+        btMain.setStyle("-fx-font-weight: Bold");
+        btReload.setStyle("-fx-font-weight: Bold");
+        btm.setStyle("-fx-background-color: YELLOW");
 
         //Shape
         Polygon hex = new Polygon();
@@ -107,8 +121,8 @@ public class Game {
         lbPText.setMaxSize(100,50);
         lbP.setMinSize(100,50);
         lbP.setMaxSize(100,50);
-        showError.setMinSize(400,50);
-        showError.setMaxSize(400,50);
+        showError.setMinSize(600,50);
+        showError.setMaxSize(600,50);
         uTxt.setMinSize(200,50);
         uTxt.setMaxSize(200,50);
         rTxt.setMinSize(200,500);
@@ -149,12 +163,13 @@ public class Game {
             uTxt.end();
             if (middleChecker(uTxt,btm))
             {
+                showError.setText(" ");
                 text.add(0, uTxt.getText());
-                Message message = ControllerDialog.checkIfAvailableFromPangram(text.toString());
+                Message message = ControllerDialog.checkIfAvailableFromPangram(uTxt.getText().toString());
                 System.out.println(message.point);
-                System.out.println("ABC" +text);
+                System.out.println("AHMETTEN GİDEN = " +uTxt.getText());
                 if (message.point>0) {
-                    pbPoint.setProgress(pbPoint.getProgress() + 0.1);
+                    pbPoint.setProgress((double)ControllerDialog.pointFromGame/ControllerDialog.maxPoint);
                     areaFiller(text, rTxt);
                     uTxt.clear();
                     text.clear();
@@ -164,15 +179,18 @@ public class Game {
                     showError.setTextFill(Color.DARKCYAN);
                     showError.setStyle("-fx-font-size: 25");
                     lbP.setText(message.game);
+                    lbPoint.setText(String.valueOf(ControllerDialog.pointFromGame));
+                    showError.setText("+"+message.point);
                 }
                 else
                 {
+
                     String prInfo = message.word;
                     showError.setVisible(true);
                     showError.setStyle("-fx-font-weight: Bolder");
                     showError.setStyle("-fx-font-style: Italic");
                     showError.setTextFill(Color.RED);
-                    showError.setStyle("-fx-font-size: 25");
+                    showError.setStyle("-fx-font-size: 20");
                     text.clear();
 
                     //Language

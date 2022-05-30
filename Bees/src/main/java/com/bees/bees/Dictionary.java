@@ -1,29 +1,26 @@
 package com.bees.bees;
-
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Random;
-import java.util.Scanner;
+import java.util.*;
 
 public class Dictionary {
-    public static ControllerDialog game = new ControllerDialog();
     public static ArrayList<String> rawDictionaryStr = new ArrayList<String>();
     public static ArrayList<Word> rawDictionary = new ArrayList<Word>();
     public static ArrayList<String> dictionaryStr = new ArrayList<>();
     public static ArrayList<Word> dictionary = new ArrayList<Word>();
+    public static HashSet<String> dictionaryHash = new HashSet<>();
     public static HashMap<String, Integer> reverseDictionary = new HashMap<>();
-    public static HashMap<Integer, ArrayList<Integer>> wordsMap = new HashMap<>();
+    public static HashMap<Long, ArrayList<Integer>> wordsMap = new HashMap<>();
     public static ArrayList<Integer> pangramWordsStr = new ArrayList<>();
     public static ArrayList<Character> pangramWordsChr = new ArrayList<>();
     public static ArrayList<Pangram> pangramWords = new ArrayList<Pangram>();
     public static HashMap<Integer, ArrayList<Integer>> map = new HashMap<>();
     public static HashMap<Long, ArrayList<Integer>> pangramWordsHashMap = new HashMap<>();
-    public static String turkishUpperCaseLetters = "ABCÇDEFGĞHIİJKLMNOÖPRSŞTUÜVYZ";
-    public static String turkishLowerCaseLetters = "abcçdefgğhıijklmnoöprsştuüvyz";
+    public static String turkishUpperCaseLetters = "AÂBCÇDEFGĞHIİÎJKLMNOÖPRSŞTUÛÜVYZ";
+    public static String turkishLowerCaseLetters = "aâbcçdefgğhıiîjklmnoöprsştuûüvyz";
+    //public static String charactersWithAccent = "îÎÂâÛû";
+    //public static String equivalentOfAccents = "İİAAUU";
 
 
     //dosya okuma sıkıntı çıkarabilir.
@@ -61,6 +58,7 @@ public class Dictionary {
         for (String str : rawDictionaryStr) {
             StringProcessor strPro = new StringProcessor();
             strPro.name = str;
+            //strPro.clearAccents();
             // System.out.printf("ĞĞĞĞĞĞĞĞĞ %s\n", strPro.name);
             if (strPro.checkWord()) {
                 //System.out.printf("HHHHHHHHHH %s %s\n", strPro.name, strPro.letters);
@@ -72,14 +70,21 @@ public class Dictionary {
                 word.isPangram = strPro.isPangram;
                 word.hashCode = strPro.hashCode;
 
+                if(dictionaryHash.contains(strPro.name))
+                    continue;
+                dictionaryHash.add(strPro.name);
+
                 dictionary.add(word);
                 reverseDictionary.put(strPro.name, j);
+                //System.out.printf("%b\n", Dictionary.reverseDictionary.containsKey(strPro.name));
+                String newStr = strPro.name;
+                //System.out.printf("%b\n", Dictionary.reverseDictionary.containsKey(newStr));
 
                 ArrayList<Integer> al = wordsMap.get(strPro.hashCode);
                 if (al == null)
                     al = new ArrayList<Integer>();
                 al.add(j);
-                wordsMap.put(strPro.hashCode, al);
+                wordsMap.put( strPro.hashCode, al);
 
 
                 /*
@@ -97,6 +102,10 @@ public class Dictionary {
             }
             i++;
         }
+
+        //System.out.printf("%d ahmet %d\n", Dictionary.reverseDictionary.size(),   Dictionary.reverseDictionary.get("GELİN"));
+
+
   //      for(i = 0; i < dictionaryStr.size(); i++)
 //            System.out.printf("%d %s\n", i, dictionaryStr.get(i));
     }
@@ -135,15 +144,22 @@ public class Dictionary {
                         pangram.name = str;
                         pangram.letters = panPro.letters;
                         pangram.centerLetter = str.charAt(j);
-                        pangram.pangramHashCode =(long) 8 * strPro.hashCode + j;
+                        pangram.pangramHashCode = 8 * strPro.hashCode + j;
                         pangram.setOfWords = panPro.generateSetOfWordsWithHash(panPro.name, panPro.centerLetter);
                         pangram.totalPoint = panPro.totalPoint;
                         pangram.totalNumberOfWords = panPro.totalNumberOfWords;
 
+                        /*
+                        for(int k = 0; k < pangram.setOfWords.size(); k++) {
 
-                        for(int k = 0; k < pangram.setOfWords.size(); k++)
-                            pangram.wordsList.add(Dictionary.dictionaryStr.get(pangram.setOfWords.get(k)));
-
+                            int indis1 = pangram.setOfWords.get(k);
+                            String str1 = ControllerDialog.dict.dictionaryStr.get(indis1);
+                            Message message = pangram.checkIfAvailableFromPangram2(str1);
+                            if(message.point > 0) {
+                                pangram.wordsList.add(str1);
+                            }
+                        }
+                        */
 
                         //System.out.printf("+++ %d %s %c %d %d %d\n", a, pangram.name, pangram.centerLetter, pangram.setOfWords.size(), pangram.totalPoint, pangram.totalNumberOfWords);
 
@@ -165,12 +181,12 @@ public class Dictionary {
                         if (pangram.totalNumberOfWords >= 20 && pangram.totalNumberOfWords <= 80 &&
                                 pangram.totalPoint >= 100 && pangram.totalPoint <= 400) {
                             y++;
-                            if( !Dictionary.pangramWordsHashMap.containsKey(pangram.pangramHashCode) ) {
+                            if( !ControllerDialog.dict.pangramWordsHashMap.containsKey(pangram.pangramHashCode) ) {
                                 pangramWords.add(pangram);
                                 pangramWordsStr.add(i);
                                 pangramWordsChr.add(panPro.centerLetter);
                                 z++;
-                                Dictionary.pangramWordsHashMap.put(pangram.pangramHashCode, pangram.setOfWords);
+                                ControllerDialog.dict.pangramWordsHashMap.put(pangram.pangramHashCode, pangram.setOfWords);
                             }
 
                             a++;
@@ -205,7 +221,7 @@ public class Dictionary {
         //Ahmet was here
     public static Pangram gameLetters()
     {
-        int n = pangramWordsHashMap.size(); //returns 0 pangramwords
+        int n = pangramWords.size(); //returns 0 pangramwords
         System.out.printf("#######%d pangram word\n", n);
         Random rand = new Random();
         int a = rand.nextInt(n);
