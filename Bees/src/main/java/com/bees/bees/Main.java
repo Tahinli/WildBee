@@ -1,5 +1,7 @@
 package com.bees.bees;
 
+
+
 import animatefx.animation.*;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -11,7 +13,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 import javafx.stage.Stage;
 
-import java.io.FileNotFoundException;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 
@@ -21,19 +22,10 @@ public class Main{
     Game gameR = new Game();
     WordPicker wordPicker = new WordPicker();
     public void menu(Stage stage) throws Exception {
-
-
-
-
-
         //Communication
         ControllerDialog.func();
-        Pangram pangram = ControllerDialog.getBeeHiveLetters();
-
-
+        System.out.printf("Menuye girdi %d pangram var Main 27\n", Dictionary.pangramsDictionary.size());
         //Definition
-        StringBuilder gWord = new StringBuilder(pangram.letters);
-        Character middle = pangram.centerLetter;
         AtomicBoolean c = new AtomicBoolean(false);
         Pane pane = new Pane();
         Button btRandom = new Button("Quick Start");
@@ -43,17 +35,6 @@ public class Main{
         RadioButton rEnglish = new RadioButton("English");
         ToggleGroup language = new ToggleGroup();
         AtomicBoolean cLanguage = new AtomicBoolean(false);
-        Polygon hex = new Polygon();
-        hex.getPoints().addAll(new Double[]{
-                        100.0, 50.0,
-                        300.0, 50.0,
-                        400.0, 78.86,
-                        300.0, 107.72,
-                        100.0, 107.72,
-                        0.0, 78.86, });
-
-        //CommunicationInfo
-
 
         //Size
         btRandom.setMinSize(100,50);
@@ -100,6 +81,7 @@ public class Main{
             btRandom.setText("Hızlı Başla");
             btChosen.setText("Kelime Ver");
             lbWelcome.setText("Hoşgeldin");
+            ControllerDialog.setLanguage(0);
         });
         rEnglish.setOnAction(actionEvent -> {
             cLanguage.set(false);
@@ -107,6 +89,7 @@ public class Main{
             btRandom.setText("Quick Start");
             btChosen.setText("Give a Word");
             lbWelcome.setText("Welcome");
+            ControllerDialog.setLanguage(1);
         });
 
         rTurkish.setToggleGroup(language);
@@ -115,7 +98,9 @@ public class Main{
         stage.setScene(new Scene(pane,400,300));
         pane.getChildren().addAll(btRandom,btChosen,lbWelcome,rTurkish,rEnglish);
         stage.setResizable(false);
+        stage.setAlwaysOnTop(true);
         stage.show();
+        stage.setAlwaysOnTop(false);
 
     }
 

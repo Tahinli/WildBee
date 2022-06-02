@@ -1,8 +1,6 @@
 package com.bees.bees;
 
-import java.util.ArrayList;
 import java.util.Objects;
-import java.util.Random;
 
 public class Word {
 
@@ -21,8 +19,6 @@ public class Word {
         return true;
     }
 
-
-
     public boolean isTurkish() {
         for(int i = 0; i < name.length(); i++)
             if( Dictionary.turkishUpperCaseLetters.indexOf( name.charAt(i) ) == -1 &&
@@ -36,9 +32,6 @@ public class Word {
         return true;
     }
 
-
-
-
     public void calculatePoint() {
         point = name.length() - 3;
         if(countDistinctLetters() == 7) {
@@ -47,47 +40,25 @@ public class Word {
         }
     }
 
-
     public int countDistinctLetters() {
         int n = 0;
-        boolean[] used = new boolean[29];
+        boolean[] used = new boolean[Dictionary.numberOfWords];
         for(int i = 0; i < name.length(); i++) {
             int a = Dictionary.turkishUpperCaseLetters.indexOf(name.charAt(i));
-            if(!used[a]) {
+            if(!used[a])
                 used[a] = true;
+        }
+        letters = "";
+        hashCode = 0;
+        long x = 1;
+        for(int i = 0; i < Dictionary.numberOfWords; i++, x *= 2)
+            if(used[i]) {
+                letters += Dictionary.turkishUpperCaseLetters.charAt(i);
+                hashCode += x;
                 n++;
             }
-        }
         return n;
     }
-
-
-    public Word copyOf() {
-        Word nw = new Word();
-        nw.name = name;
-        nw.letters = letters;
-        nw.point = point;
-        nw.isPangram = isPangram;
-        nw.hashCode = hashCode;
-        return nw;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == null) {
-            return false;
-        }
-
-        if (obj.getClass() != this.getClass()) {
-            return false;
-        }
-
-        final Word other = (Word) obj;
-        if (!Objects.equals(this.name, other.name)) {
-            return false;
-        }
-
-        return true;    }
 
 }
 

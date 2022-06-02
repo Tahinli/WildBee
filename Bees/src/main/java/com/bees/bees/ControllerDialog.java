@@ -1,9 +1,9 @@
 package com.bees.bees;
 
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.Random;
-import java.util.Scanner;
 
 public class ControllerDialog {
 
@@ -12,8 +12,9 @@ public class ControllerDialog {
     public static int numberOfWords;
     public static boolean isAllFound;
 
-    public static String[] messages = {"Beginner", "Good Start", "Moving Up", "Good", "Solid", "Nice",  "Great",
-            "Amazing", "Genius", "Queen Bee"};
+    public static String[] messages = {"Beginner", "Good Start", "Moving Up", "Good", "Solid", "Nice", "Great",
+            "Amazing", "Genius", "Almost There", "Queen Bee", "Başlangıç", "İyi Başlangıç", "Devam et", "İyi Gidiyorsun", "Sağlam", "Güzel", "Muhteşem",
+            "Harika", "Dahi", "Neredeyse Bitti", "Kraliçe Arı"};
     public static int maxPoint;
 
     public static int pointFromWord;
@@ -22,177 +23,142 @@ public class ControllerDialog {
     public static int pointFromGame;
 
     public static String gameMessage;
+    public static int language = 1;
+    public static int processedPangrams = 0;
 
-    public static void func() throws FileNotFoundException {
+    public static void func() throws FileNotFoundException, UnsupportedEncodingException {
+        /*
         dict = new Dictionary();
         dict.read();
         dict.processDictionary();
-        dict.findPossiblePangramWords(); //HERE ########################################
-        //Dictionary.printAllSetOfWordsOfPangram();
 
-        System.out.printf("There are %d pangram\n", ControllerDialog.dict.pangramWords.size());
 
-        /*
-        for(int i = 0; i < Math.pow(2, 30); i++)  {
-            if(Dictionary.map.containsKey(i))  {
-
-                System.out.printf("Başlangıç %s\n", Pangram.getWordsFromHashCode(i));
-                for(Word word: Dictionary.map.get(i))
-                    System.out.printf("%s CD 38\n", word.word);
-                System.out.printf("End\n\n");
-
-            }
-        }
          */
+        Dictionary.read();
+        Dictionary.processDictionary();
 
-        /*
+        PrintWriter writer = new PrintWriter("kelimeler.txt", "UTF-8");
+
+
+        writer.printf("Sözcük listesi hashcodelarıyla\n");
         int i = 0;
-        for(Pangram pangram: Dictionary.pangramWords) {
-            System.out.printf("\n%d %s %c %d CD line 45\n", i++, pangram.name, pangram.centerLetter, pangram.setOfWords.size());
+        for(Word word: Dictionary.dictionary)  {
+            writer.printf("########## %d %s %d sözcük listesi\n",i++, word.name, word.hashCode);
+            int j = 0;
+            for(Word word2: Dictionary.wordsMap.get(word.hashCode))
+                writer.printf("--- %d %s %d\n", j++, word2.name, word2.hashCode);
+        }
+
+
+        writer.printf("\n\n\n\n\n\n\n\n\n\n\n\n Pangram ve setOfWordsları\n\n\n\n\n\n\n\n\n");
+        i = 0;
+        for(Pangram pangram: Dictionary.pangramsDictionary)  {
+            writer.printf("%d %s %s %c %d %d %d pangramın set of word listesi\n", i++, pangram.name, pangram.letters,
+                    pangram.centerLetter, pangram.pangramHashCode,
+                    pangram.totalNumberOfWords, pangram.totalPoint);
             int j = 0;
             for(Word word: pangram.setOfWords)
-                System.out.printf("%d %s %s\n", j++, pangram.name, word.name);
-            System.out.printf("\n");
-        }
-        */
-
-
-
-        /*
-        int a = 0;
-        for(Word word: Dictionary.dictionary) {
-            System.out.printf("%d %s %s %d %b %d\n", a++, word.word, String.valueOf(word.letters), word.point, word.isPangram, word.hashCode);
-        }
-        System.out.printf("%d\n", Dictionary.dictionary.size());
-
-        System.out.printf("%d %b\n", Dictionary.pangramWords.size(), Dictionary.pangramWords.isEmpty());
-
-        for(Pangram pangram: Dictionary.pangramWords) {
-            for (Word word2 : pangram.setOfWords)
-                System.out.printf("%d %s created\n", word2.hashCode, word2.word);
-            System.out.println();
+                writer.printf("%d %s %d\n", j++, word.name, word.hashCode);
         }
 
-         */
-        /*
-        int a = 0;
-        for (; a < dict.pangramWords.size(); a++) {
-            System.out.printf("%d %s %c %d %d pangram words properties\n", a++, dict.pangramWords.get(a).word, dict.pangramWords.get(a).centerLetter, dict.pangramWords.get(a).totalNumberOfWords, dict.pangramWords.get(a).totalPoint);
-        }
-        */
 
-        //System.out.println("########################################################");
-        //System.out.printf("%d %b\n", Dictionary.pangramWords.size(), Dictionary.pangramWords.isEmpty());
-        //dict.printAllPangramWords();
+    }
 
-        /*
-        beeHiveLetters = Dictionary.gameLetters();
-
-        System.out.println("BeeHiveLetters' setOfWords are: CD 88");
-        for(Word word: beeHiveLetters.setOfWords)
-            System.out.printf("%s\n", word.name);
-        */
-        /*
-        System.out.printf("all possible words %s %c\n", beeHiveLetters.word, beeHiveLetters.centerLetter);
-        int i = 0;
-        for(Word word: beeHiveLetters.setOfWords) {
-            System.out.printf("%d %s %d %s\n", i++, word.word, word.point, word.message);
-        }
-        */
-
-        //System.out.printf("There are %d pangram words.\n", Dictionary.pangramWords.size());
-        //System.out.printf("Hello World\n");
-
-        /*
-        for(int a = 0; a < 29; a++)
-            System.out.printf("%d ", Dictionary.turkishUpperCaseLetters.indexOf(Dictionary.turkishUpperCaseLetters.charAt(a)) );
-        Word w = new Word();
-        w.name = "DEDE";
-        w.calculatePoint();
-        System.out.printf("\n%d\n", w.hashCode);
-        */
+    public static void setLanguage(int i) {
+        language = i;
     }
 
     public static  Pangram getBeeHiveLetters() {
-        beeHiveLetters = dict.gameLetters();
+        Random rand = new Random();
+        int a = rand.nextInt(Dictionary.pangramsDictionary.size());
+        int i = 0;
+        for(Pangram pangram: Dictionary.pangramsDictionary) {
+            if (i == a) {
+                beeHiveLetters = pangram;
+                break;
+            }
+            i++;
+        }
         maxPoint = beeHiveLetters.totalPoint;
         pointFromGame = 0;
-        for(int i = 0; i < ControllerDialog.beeHiveLetters.setOfWords.size(); i++)
-            System.out.printf("%s Kopya\n", ControllerDialog.dict.dictionary.get(ControllerDialog.beeHiveLetters.setOfWords.get(i)).name);
+        numberOfWords = 0;
+        for(Word word :beeHiveLetters.setOfWords)
+            System.out.printf("%s Kopya\n", word.name);
         return ControllerDialog.beeHiveLetters;
     }
 
+
     public static boolean getPangram(String str) {
-        Pangram pangram = new Pangram();
-        pangram.name = str;
-        if(!pangram.checkWord())
+        Word word = new Word();
+        word.name = str;
+        System.out.printf("Kaandan gelen %s %s --- \n", str, word.name);
+        if(!word.checkWord() || !word.isPangram || word.name.length()!=7)
             return false;
-        Pangram p = pangram.isInThePangramWords(pangram.name, pangram.name.charAt(0));
+        Pangram pangram = new Pangram();
+        pangram.name = word.name;
+        pangram.letters = word.letters;
+        pangram.point = word.point;
+        pangram.isPangram = word.isPangram;
+        pangram.hashCode = word.hashCode;
+        pangram.centerLetter = pangram.name.charAt(0);
+        pangram.pangramHashCode = 8 * pangram.hashCode + word.letters.indexOf(pangram.centerLetter);
+        pangram.totalNumberOfWords = pangram.totalPoint = 0;
+
+
+
+        System.out.printf("1 Word is valid %s %c %d\n", pangram.name, pangram.centerLetter, pangram.pangramHashCode);
+
+        System.out.printf("2 Word is valid %s\n", pangram.name);
+        /*
+        for(Word word2 :beeHiveLetters.setOfWords)
+            System.out.printf("%s Kopya\n", word2.name);
+        */
+
+        boolean b = false;
+        for(Pangram p: Dictionary.pangramsDictionary)
+            if(pangram.pangramHashCode == p.pangramHashCode && pangram.centerLetter == p.centerLetter) {
+                beeHiveLetters = p;
+                b = true;
+                break;
+            }
+        if(!b)
+            return false;
+
+        /*
+        if(!Dictionary.pangramsDictionary.contains(pangram))
+            return false;
+        */
+        //Pangram p = pangram.isInThePangramWords(pangram);
+
+        /*
+        System.out.printf("3 Word is valid %s\n", pangram.name);
         if(p == null)
             return false;
-        beeHiveLetters = p;
+        */
+
+        //beeHiveLetters = pangram;
         maxPoint = beeHiveLetters.totalPoint;
+        beeHiveLetters.setOfWords = pangram.setOfWords;
         pointFromGame = 0;
+        System.out.printf("4 Word is valid %s\n", pangram.name);
+
+        for(Word word2 :beeHiveLetters.setOfWords)
+            System.out.printf("%s Kopya\n", word2.name);
+
+
         return true;
     }
 
-
-    /*
-    public Word checkWord(Word word) {
-        word.checkWord();
-        if(word.point > 0) {
-
-            totalPoint += word.point;
-            numberOfWords++;
-            if(numberOfWords == beeHiveLetters.totalNumberOfWords)
-                isAllFound = true;
-        }
-        return word;
-    }
-    */
-
-    /*
-    public Word gameStatus() {
-        Word word = new Word();
-        word.point = totalPoint;
-        if(word.point == maxPoint)
-            word.message = messages[9];
-        else {
-            int a = word.point;
-            if (a >= 90)
-                a -= 10;
-            word.message = messages[totalPoint / 10];
-        }
-        message = word.message;
-        return word;
-    }
-    */
-
     public static Message checkIfAvailableFromPangram(String str) {
-        return beeHiveLetters.checkIfAvailableFromPangram(str);
+        Message message = beeHiveLetters.checkIfAvailableFromPangram(str);
+        if(message.point > 0) {
+            pointFromGame += message.point;
+            numberOfWords++;
+        }
+
+        return message;
     }
 
 
-    /*
-    public ControllerDialog checkIfAvailableFromPangram(ControllerDialog cd, Word w) {
-        ControllerDialog ret = beeHiveLetters.checkIfAvailableFromPangram(cd, w);
-        return ret;
-    }
-    */
-
-    /*
-    public ControllerDialog copyOfCD() {
-        ControllerDialog ret = new ControllerDialog();
-        ret.beeHiveLetters = beeHiveLetters;
-        ret.numberOfWords = numberOfWords;
-        ret.isAllFound = isAllFound;
-        ret.messages = messages;
-        ret.maxPoint = maxPoint;
-        ret.pointFromWord = pointFromWord;
-        ret.wordMessage = wordMessage;
-        ret.pointFromGame = pointFromGame;
-        ret.gameMessage = gameMessage;
-        return ret;
-    }
-    */
 }
+

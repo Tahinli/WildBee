@@ -1,5 +1,6 @@
 package com.bees.bees;
 
+
 import animatefx.animation.Wobble;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -8,8 +9,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-
-import java.util.concurrent.atomic.AtomicBoolean;
 
 public class WordPicker {
     public void wp (boolean l, Stage stage1, Stage stage2, boolean c)
@@ -56,6 +55,7 @@ public class WordPicker {
                 uTxt.setText(uTxt.getText().toUpperCase());
                 uTxt.end();
                 boolean b = ControllerDialog.getPangram(uTxt.getText());
+                System.out.println("AHMETTEN GİDEN = "+uTxt.getText());
                 if (b)
                 {
                     gWord.setLength(0);
