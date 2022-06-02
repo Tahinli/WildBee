@@ -76,15 +76,14 @@ public class WordPicker {
             StringBuilder key = new StringBuilder();
             key.append(keyEvent.getCode().toString());
             System.out.println(key);
-            switch (key.toString())
-            {
+            switch (key.toString()) {
                 case "ENTER":
                     btEnter.fire();
                     break;
-                    case "ESCAPE":
+                case "ESCAPE":
                     uTxt.clear();
                     break;
-                    }
+            }
         });
         uTxt.setOnKeyPressed(keyEvent -> {
                 uTxt.setText(uTxt.getText().replaceAll("[^a-zA-z],[^şçğü]", " "));

@@ -21,9 +21,10 @@ public class Main{
     //Object
     Game gameR = new Game();
     WordPicker wordPicker = new WordPicker();
+    Loading loading = new Loading();
     public void menu(Stage stage) throws Exception {
         //Communication
-        ControllerDialog.func();
+        //ControllerDialog.func();
         System.out.printf("Menuye girdi %d pangram var Main 27\n", Dictionary.pangramsDictionary.size());
         //Definition
         AtomicBoolean c = new AtomicBoolean(false);

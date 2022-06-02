@@ -9,6 +9,7 @@
     <version>1.0-SNAPSHOT</version>
     <name>Bees</name>
 
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <junit.version>5.8.2</junit.version>
@@ -135,6 +136,9 @@
                             <noManPages>true</noManPages>
                             <stripDebug>true</stripDebug>
                             <noHeaderFiles>true</noHeaderFiles>
+                            <archive>
+                                <manifestFile>src/main/resources/META-INF/MANIFEST.MF</manifestFile>
+                            </archive>
                         </configuration>
                     </execution>
                 </executions>
