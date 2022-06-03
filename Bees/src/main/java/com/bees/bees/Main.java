@@ -99,9 +99,8 @@ public class Main{
         stage.setScene(new Scene(pane,400,300));
         pane.getChildren().addAll(btRandom,btChosen,lbWelcome,rTurkish,rEnglish);
         stage.setResizable(false);
-        stage.setAlwaysOnTop(true);
         stage.show();
-        stage.setAlwaysOnTop(false);
+        stage.toFront();
 
     }
 
