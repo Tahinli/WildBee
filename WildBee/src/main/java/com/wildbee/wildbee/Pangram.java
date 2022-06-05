@@ -2,6 +2,10 @@ package com.wildbee.wildbee;
 
 import java.util.*;
 
+/**
+ * It is the class in which pangram words are created and controlled according to conditions.
+ * @since 2022-06
+ */
 class Pangram extends Word {
     long pangramHashCode;
     char centerLetter;
@@ -10,6 +14,9 @@ class Pangram extends Word {
     HashSet<Word> setOfWords = new HashSet<>();
     HashSet<String> foundWords = new HashSet<>();
 
+    /**
+     * Pangram words are generated.
+     */
     void generateSetOfWordsWithHash() {
         long hc;
         boolean b;
@@ -33,6 +40,10 @@ class Pangram extends Word {
         }
     }
 
+    /**
+     * @param str It is checked whether the parameter named str is suitable for pangram.
+     * @return Returns the message of the pangram.
+     */
     Message checkIfAvailableFromPangram(String str) {
         Message message = new Message();
         Word word = new Word();
@@ -100,6 +111,10 @@ class Pangram extends Word {
         return message;
     }
 
+    /**
+     * @param str is the parameter named str that controls the letter that cannot be in the hive.
+     * @return The result is returned as true or false.
+     */
     boolean checkLetterNotInBeehive(String str) {
         for (int i = 0; i < str.length(); i++)
             if (name.indexOf(str.charAt(i)) == -1)
@@ -107,6 +122,10 @@ class Pangram extends Word {
         return false;
     }
 
+    /**
+     * @param str It is the parameter that allows to control whether the Center Letter is Included.
+     * @return The result is returned as true or false.
+     */
     boolean checkIfCenterLetterIncluded(String str) {
         if (str.indexOf(centerLetter) == -1)
             return false;

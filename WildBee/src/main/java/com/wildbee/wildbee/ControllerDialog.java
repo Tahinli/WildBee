@@ -11,6 +11,10 @@ import java.nio.charset.StandardCharsets;
 import java.security.spec.ECField;
 import java.util.Random;
 
+/**
+ * This class is concerned with words, transmission of words and score.
+ * @since 2022-06
+ */
 class ControllerDialog {
 
     static Pangram beeHiveLetters;
@@ -25,15 +29,26 @@ class ControllerDialog {
     static int language = 1;
     static int processedPangrams = 0;
 
+    /**
+     * The place where the dictionary is is written, the dictionary is read and processed. The word list and pangrams are then expressed in the terminal.
+     * @throws FileNotFoundException the part that runs if the file is not found
+     */
     static void func() throws FileNotFoundException {
         Dictionary.read();
         Dictionary.processDictionary();
     }
 
+    /**
+     * @param i Allows you to select the game language at the start of the game.
+     */
     static void setLanguage(int i) {
         language = i;
     }
 
+    /**
+     * It is returned if the conditions are met for the letters to be written in the beehive.
+     * @return bee hive returns letters.
+     */
     static  Pangram getBeeHiveLetters() {
         Random rand = new Random();
         int a = rand.nextInt(Dictionary.pangramsDictionary.size());
@@ -51,7 +66,10 @@ class ControllerDialog {
         return ControllerDialog.beeHiveLetters;
     }
 
-
+    /**
+     * @param str The name of the words to be entered is not determined as str.
+     * @return If The word is correct, it returns the word to the list of correct answers.
+     */
     static boolean getPangram(String str) {
         Word word = new Word();
         word.name = str;
@@ -83,6 +101,10 @@ class ControllerDialog {
         return true;
     }
 
+    /**
+     * @param str The word entered in the game is expressed with str.
+     * @return Returns the availability message.
+     */
     static Message checkIfAvailableFromPangram(String str) {
         Message message = beeHiveLetters.checkIfAvailableFromPangram(str);
         if (message.point > 0) {
@@ -94,6 +116,9 @@ class ControllerDialog {
         return message;
     }
 
+    /**
+     * @throws Exception .
+     */
     static void writeWordsAndPangrams() throws Exception   {
         PrintWriter writer = new PrintWriter("cheatSheet.txt", StandardCharsets.UTF_8);
 

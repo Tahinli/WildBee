@@ -8,11 +8,25 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 import javafx.stage.Stage;
+
 import java.util.ArrayList;
 import java.util.Collections;
 
+/**
+ * This class is the most detailed part of the game part.
+ * @since 2022-06
+ */
 class Game {
-
+    /**
+     * It is the class where the events that will happen from the moment the game is opened are written. If we go into details, the game contains parts such as "delete" "clear" "shuffle" "enter" "reload" and warning texts during the game, and details about the colors, positions and fonts of these buttons and warnings are written.
+     * @since 2022-06
+     * @param l It is the parameter named l used in the operation of the game.
+     * @param stage1 It is the parameter named stage1 used in the operation of the game.
+     * @param rStage It is the parameter named rStage used in the operation of the game.
+     * @param gWord The parameter of the query word.
+     * @param c Represents the bool value named c.
+     * @param middle It is the parameter that concerns the middle letter (yellow hexagon).
+     */
     void rGame(boolean l,Stage stage1,Stage rStage,StringBuilder gWord, boolean c, Character middle) {
         //Object
         Main menu = new Main();
@@ -309,12 +323,25 @@ class Game {
         rStage.setOnCloseRequest(windowEvent -> menu.visible(stage1));
     }
 
-
+    /**
+     * @param stringBuilder The parameter that puts the string list into a condition.
+     * @param textArea The parameter that puts the text area into a condition.
+     */
     void areaFiller(StringBuilder stringBuilder ,TextArea textArea)
     {
         if (!stringBuilder.isEmpty())
             textArea.appendText((stringBuilder)+"\n");
     }
+
+    /**
+     * @param arrayList It is the parameter that examines the list of strings by button.
+     * @param bt1 It is the parameter that concerns button 1.
+     * @param bt2 It is the parameter that concerns button 2.
+     * @param bt3 It is the parameter that concerns button 3.
+     * @param bt4 It is the parameter that concerns button 4.
+     * @param bt5 It is the parameter that concerns button 5.
+     * @param bt6 It is the parameter that concerns button 6.
+     */
     void areaFiller( ArrayList arrayList, Button bt1, Button bt2, Button bt3, Button bt4, Button bt5, Button bt6)
     {
         bt1.setText((String)arrayList.get(0));
@@ -324,14 +351,27 @@ class Game {
         bt5.setText((String)arrayList.get(4));
         bt6.setText((String)arrayList.get(5));
     }
+
+    /**
+     * @param textField It is the parameter of the text field.
+     * @param btm Button parameter.
+     * @return Returns the text in the text field.
+     */
     boolean middleChecker(TextField textField,Button btm)
     {
         return textField.getText().contains(btm.getText());
     }
+
+    /**
+     * @param btReload It is the parameter that concerns the reload part.
+     */
     void btReloadFire(Button btReload){
         btReload.fire();
     }
 
+    /**
+     * @param uTxt It is the parameter of the cleaning process.
+     */
     void cleaner(TextField uTxt){
         uTxt.setText(uTxt.getText().replaceAll("[^a-zA-z],[^şçğü]"," "));
         uTxt.setText(uTxt.getText().replaceAll("-"," "));

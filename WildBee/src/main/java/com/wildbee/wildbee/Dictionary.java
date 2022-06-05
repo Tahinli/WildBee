@@ -5,6 +5,10 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.*;
 
+/**
+ * This class deals with dictionary reading, dictionary manipulation, and pangrams.
+ * @since 2022-06
+ */
 class Dictionary {
     static int numberOfWords = 29;
     static String turkishUpperCaseLetters = "ABCÇDEFGĞHIİJKLMNOÖPRSŞTUÜVYZ";
@@ -17,6 +21,10 @@ class Dictionary {
     static HashSet<Pangram> pangramsDictionary = new HashSet<>();
     static HashMap<Long, Pangram> pangramsWithHashCode = new HashMap<>();
 
+    /**
+     * It is the part where the operations related to reading the dictionary are made. Words are pronounced letter by letter.
+     * @throws FileNotFoundException The part that runs if the file is not found.
+     */
     static void read() throws FileNotFoundException {
 
         File file = new File("sozlukv2.txt");
@@ -49,6 +57,9 @@ class Dictionary {
         in.close();
     }
 
+    /**
+     * It is the place where the processing of the dictionary and the detection of pangrams from the words in the processed dictionary are made.
+     */
     static void processDictionary() {
         for (Word word : dictionary)
             if (word.isPangram) {

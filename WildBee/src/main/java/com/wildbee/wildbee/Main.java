@@ -14,11 +14,18 @@ import javafx.stage.Stage;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 
-
+/**
+ * It is the class that concerns the main parts of the game.
+ * @since 2022-06
+ */
 class Main{
     //Object
     Game gameR = new Game();
     WordPicker wordPicker = new WordPicker();
+
+    /**
+     * @param stage What concerns the scene part is the parameter with its settings.
+     */
     void menu(Stage stage) {
         //Definition
         AtomicBoolean c = new AtomicBoolean(false);
@@ -100,6 +107,10 @@ class Main{
         stage.toFront();
 
     }
+
+    /**
+     * This is the part about writer.
+     */
     static class writer extends Task<Integer>{
         @Override
         protected Integer call() throws Exception {
@@ -108,15 +119,26 @@ class Main{
         }
     }
 
+    /**
+     * @param stage is the visible scene parameter.
+     */
     void visible(Stage stage){
         stage.show();
         stage.toFront();
 
     }
+
+    /**
+     * @param stage is the unvisible scene parameter.
+     */
     void unVisible(Stage stage){
         stage.hide();
 
     }
+
+    /**
+     * @return It is the part where the incoming word is returned.
+     */
     StringBuilder gWordReturner(){
         Pangram pangram = ControllerDialog.getBeeHiveLetters();
         StringBuilder gWord = new StringBuilder(pangram.letters);
@@ -127,6 +149,12 @@ class Main{
         gWord.trimToSize();
         return gWord;
     }
+
+    /**
+     * @param cLanguage It is the parameter set according to the language.
+     * @param stage is the parameter of the scene part called back.
+     * @param c is the parameter of the scene part called back.
+     */
     void callBack(Boolean cLanguage,Stage stage, Boolean c){
         StringBuilder tempG = gWordReturner();
         Character tempM = tempG.charAt(tempG.length()-1);

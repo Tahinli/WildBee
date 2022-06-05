@@ -9,7 +9,10 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
-
+/**
+ * It is the class where the codes related to the last part of the game are written.
+ * @since 2022-06
+ */
 class Finish {
     //Object
     Game game = new Game();
