@@ -1,5 +1,7 @@
 package com.bees.bees;
 
+import javafx.scene.control.ProgressBar;
+
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
@@ -26,7 +28,7 @@ public class ControllerDialog {
     public static int language = 1;
     public static int processedPangrams = 0;
 
-    public static void func() throws FileNotFoundException, UnsupportedEncodingException {
+    public static void func() throws FileNotFoundException, UnsupportedEncodingException{
         /*
         dict = new Dictionary();
         dict.read();
@@ -37,7 +39,7 @@ public class ControllerDialog {
         Dictionary.read();
         Dictionary.processDictionary();
 
-        PrintWriter writer = new PrintWriter("kelimeler.txt", "UTF-8");
+       /* PrintWriter writer = new PrintWriter("kelimeler.txt", "UTF-8");
 
 
         writer.printf("Sözcük listesi hashcodelarıyla\n");
@@ -56,10 +58,11 @@ public class ControllerDialog {
             writer.printf("%d %s %s %c %d %d %d pangramın set of word listesi\n", i++, pangram.name, pangram.letters,
                     pangram.centerLetter, pangram.pangramHashCode,
                     pangram.totalNumberOfWords, pangram.totalPoint);
+
             int j = 0;
             for(Word word: pangram.setOfWords)
                 writer.printf("%d %s %d\n", j++, word.name, word.hashCode);
-        }
+        }*/
 
 
     }

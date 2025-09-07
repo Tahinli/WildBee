@@ -380,6 +380,7 @@ public class Game {
         });
 
         rStage.show();
+        rStage.toFront();
     }
 
 
