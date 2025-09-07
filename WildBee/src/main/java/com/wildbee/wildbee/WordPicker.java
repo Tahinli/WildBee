@@ -10,6 +10,10 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
+/**
+ * This class is a class where the word is entered and the word is selected.
+ * @since 2022-06
+ */
 class WordPicker {
     void wp (boolean l, Stage stage1,boolean c)
     {

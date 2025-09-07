@@ -10,7 +10,10 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
-
+/**
+ * It is the class that concerns the loading area.
+ * @since 2022-06
+ */
 class Loading {
     ProgressBar progressBar = new ProgressBar();
     Stage stageG = new Stage();
@@ -72,12 +75,19 @@ class Loading {
 
 
     }
+
+    /**
+     * @param stage It is the parameter related to the closing of the loading screen.
+     */
     void closer(Stage stage) {
         Main menu = new Main();
         menu.menu(stageG);
         stage.close();
     }
 
+    /**
+     * It is the part about the number of pangrams.
+     */
     class pro extends Task<Integer>{
         @Override
         protected Integer call() {
