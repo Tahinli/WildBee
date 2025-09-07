@@ -138,7 +138,6 @@ public class ControllerDialog {
 
         //beeHiveLetters = pangram;
         maxPoint = beeHiveLetters.totalPoint;
-        beeHiveLetters.setOfWords = pangram.setOfWords;
         pointFromGame = 0;
         System.out.printf("4 Word is valid %s\n", pangram.name);
 
@@ -152,6 +151,7 @@ public class ControllerDialog {
     public static Message checkIfAvailableFromPangram(String str) {
         Message message = beeHiveLetters.checkIfAvailableFromPangram(str);
         if(message.point > 0) {
+            beeHiveLetters.foundWords.add(str);
             pointFromGame += message.point;
             numberOfWords++;
         }

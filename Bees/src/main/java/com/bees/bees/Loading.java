@@ -1,5 +1,6 @@
 package com.bees.bees;
 
+import javafx.application.Preloader;
 import javafx.scene.Scene;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.Pane;
@@ -8,10 +9,8 @@ import javafx.stage.Stage;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class Loading {
-    ControllerDialog controllerDialog = new ControllerDialog();
-    public void LoadingScreen(){
+    public void loader(Stage stage){
         //Definition
-        Stage stage = new Stage();
         Pane pane = new Pane();
         ProgressBar progressBar = new ProgressBar();
         AtomicInteger oldValue = new AtomicInteger(-1);
@@ -26,7 +25,12 @@ public class Loading {
         pane.getChildren().add(progressBar);
         stage.setScene(new Scene(pane,400,300));
         stage.setResizable(false);
+        stage.setTitle("Loading...");
         stage.show();
-
     }
+    public void closer(Stage stage){
+        stage.close();
+    }
+
+
 }
