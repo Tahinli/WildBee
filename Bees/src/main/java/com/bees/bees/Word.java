@@ -10,7 +10,7 @@ public class Word {
     public String letters;
     public int point;
     public boolean isPangram;
-    public int hashCode;
+    public long hashCode;
 
     public boolean checkWord() {
         if(!isTurkish())

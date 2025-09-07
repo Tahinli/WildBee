@@ -1,7 +1,5 @@
 package com.bees.bees;
 
-
-
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Random;
@@ -10,6 +8,7 @@ import java.util.Scanner;
 public class ControllerDialog {
 
     public static Pangram beeHiveLetters;
+    public static Dictionary dict;
     public static int numberOfWords;
     public static boolean isAllFound;
 
@@ -25,11 +24,13 @@ public class ControllerDialog {
     public static String gameMessage;
 
     public static void func() throws FileNotFoundException {
-        Dictionary.read();
-        Dictionary.processDictionary();
-        Dictionary.findPossiblePangramWords(); //HERE ########################################
+        dict = new Dictionary();
+        dict.read();
+        dict.processDictionary();
+        dict.findPossiblePangramWords(); //HERE ########################################
         //Dictionary.printAllSetOfWordsOfPangram();
 
+        System.out.printf("There are %d pangram\n", ControllerDialog.dict.pangramWords.size());
 
         /*
         for(int i = 0; i < Math.pow(2, 30); i++)  {
@@ -112,23 +113,27 @@ public class ControllerDialog {
         */
     }
 
-    public static Pangram getBeeHiveLetters() {
-        beeHiveLetters = Dictionary.gameLetters();
-        for(int i = 0; i < beeHiveLetters.wordsList.size(); i++)
-            System.out.printf("%s\n", beeHiveLetters.wordsList.get(i)) ;
-        return beeHiveLetters;
+    public static  Pangram getBeeHiveLetters() {
+        beeHiveLetters = dict.gameLetters();
+        maxPoint = beeHiveLetters.totalPoint;
+        pointFromGame = 0;
+        for(int i = 0; i < ControllerDialog.beeHiveLetters.setOfWords.size(); i++)
+            System.out.printf("%s Kopya\n", ControllerDialog.dict.dictionary.get(ControllerDialog.beeHiveLetters.setOfWords.get(i)).name);
+        return ControllerDialog.beeHiveLetters;
     }
 
     public static boolean getPangram(String str) {
-        Word word = new Word();
-        word.name = str;
-        if(word.checkWord() && word.countDistinctLetters() == 7) {
-            Pangram pangram = new Pangram();
-            long hc = (long) 8 * word.hashCode;
-            if(!Dictionary.pangramWordsHashMap.containsKey(hc))
-                return true;
-        }
-        return false;
+        Pangram pangram = new Pangram();
+        pangram.name = str;
+        if(!pangram.checkWord())
+            return false;
+        Pangram p = pangram.isInThePangramWords(pangram.name, pangram.name.charAt(0));
+        if(p == null)
+            return false;
+        beeHiveLetters = p;
+        maxPoint = beeHiveLetters.totalPoint;
+        pointFromGame = 0;
+        return true;
     }
 
 
@@ -164,16 +169,7 @@ public class ControllerDialog {
     */
 
     public static Message checkIfAvailableFromPangram(String str) {
-        System.out.println(str);
-        Message message = beeHiveLetters.checkIfAvailableFromPangram(str);
-        if(message.point > 0) {
-            int ind = Dictionary.reverseDictionary.get(str);
-            beeHiveLetters.foundWordsHash.put(str, ind);
-            beeHiveLetters.foundWords.add(ind);
-            numberOfWords++;
-            pointFromGame += pointFromWord;
-        }
-        return message;
+        return beeHiveLetters.checkIfAvailableFromPangram(str);
     }
 
 

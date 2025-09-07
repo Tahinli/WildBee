@@ -7,7 +7,17 @@ public class StringProcessor {
     String letters;
     int point;
     boolean isPangram;
-    int hashCode;
+    long hashCode;
+
+    /*
+    public void clearAccents() {
+        for(int i = 0; i < name.length(); i++) {
+            int a = Dictionary.charactersWithAccent.indexOf(name.charAt(i));
+            if(a != -1)
+                name = name.substring(0,i) + Dictionary.equivalentOfAccents.charAt(a) + name.substring(i + 1);
+        }
+    }
+     */
 
     public boolean checkWord() {
         if(!isTurkish())
@@ -41,7 +51,7 @@ public class StringProcessor {
     }
     public int countDistinctLetters() {
         //System.out.printf("\n%s girdi\n", name);
-        boolean[] used = new boolean[29];
+        boolean[] used = new boolean[32];
         for(int i = 0; i < name.length(); i++) {
             int a = Dictionary.turkishUpperCaseLetters.indexOf(name.charAt(i));
             used[a] = true;
@@ -49,7 +59,7 @@ public class StringProcessor {
         int n = 0;
         letters = "";
         hashCode = 0;
-        for(int i = 0, a = 1; i < 29; i++, a *= 2)
+        for(int i = 0, a = 1; i < 32; i++, a *= 2)
             if(used[i]) {
                 hashCode += a;
                 letters += Dictionary.turkishUpperCaseLetters.charAt(i);

@@ -72,34 +72,34 @@ public class WordPicker {
         stage.setResizable(false);
         uTxt.requestFocus();
         pane.setOnKeyPressed(keyEvent -> {
-                    uTxt.requestFocus();
-                    StringBuilder key = new StringBuilder();
-                    key.append(keyEvent.getCode().toString());
-                    System.out.println(key);
-                    switch (key.toString())
-                    {
-                        case "ENTER":
-                            btEnter.fire();
-                            break;
-                        case "ESCAPE":
-                            uTxt.clear();
-                            break;
+            uTxt.requestFocus();
+            StringBuilder key = new StringBuilder();
+            key.append(keyEvent.getCode().toString());
+            System.out.println(key);
+            switch (key.toString())
+            {
+                case "ENTER":
+                    btEnter.fire();
+                    break;
+                    case "ESCAPE":
+                    uTxt.clear();
+                    break;
                     }
         });
         uTxt.setOnKeyPressed(keyEvent -> {
-                        uTxt.setText(uTxt.getText().replaceAll("[^a-zA-z],[^şçğü]", " "));
-                        uTxt.setText(uTxt.getText().trim());
-                        if (uTxt.getText().contains("i"))
-                            uTxt.setText(uTxt.getText().replaceAll("i", "İ"));
-                        uTxt.setText(uTxt.getText().toUpperCase());
-                        uTxt.end();
-                    StringBuilder key = new StringBuilder();
-                    key.append(keyEvent.getCode().toString());
-                    key.trimToSize();
-                    System.out.println(key);
-                    if (key.toString()=="ESCAPE")
-                        uTxt.clear();
-                });
+                uTxt.setText(uTxt.getText().replaceAll("[^a-zA-z],[^şçğü]", " "));
+                uTxt.setText(uTxt.getText().trim());
+                if (uTxt.getText().contains("i"))
+                    uTxt.setText(uTxt.getText().replaceAll("i", "İ"));
+                uTxt.setText(uTxt.getText().toUpperCase());
+                uTxt.end();
+                StringBuilder key = new StringBuilder();
+                key.append(keyEvent.getCode().toString());
+                key.trimToSize();
+                System.out.println(key);
+                if (key.toString() == "ESCAPE")
+                    uTxt.clear();
+            });
         stage.show();
 
     }

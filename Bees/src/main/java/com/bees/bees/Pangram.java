@@ -16,33 +16,56 @@ public class Pangram extends Word {
 
     public Message checkIfAvailableFromPangram(String str) {
         //System.out.printf("%s\n", word.name);
-        System.out.println("CAB"+str);
         Message message = new Message();
+        StringProcessor strPro = new StringProcessor();
+        strPro.name = str;
+        strPro.checkWord();
 
-        if(str.length() < 4) {
+
+        boolean b = false;
+        for (int i = 0; i < ControllerDialog.dict.dictionary.size(); i++) {
+            String str2 = ControllerDialog.dict.dictionary.get(i).name;
+
+            //int ind = ControllerDialog.dict.reverseDictionary.get( str2);
+            if (str2.equals(strPro.name)) {
+                b = true;
+                break;
+            }
+
+
+            //System.out.printf("%d %s %s %b\n", i, str2, ControllerDialog.dict.dictionary.get(ind).name, ControllerDialog.dict.reverseDictionary.containsKey( str2 ));
+        }
+
+        System.out.printf("%s %d gelen ahmetten\n", str, str.length());
+
+        System.out.printf("%b %d\n", ControllerDialog.dict.reverseDictionary.containsKey(strPro.name), ControllerDialog.dict.reverseDictionary.get(strPro.name));
+
+        String s1 = "AHMETUFUK";
+        String s2 = "AHMETUFUK";
+        ControllerDialog.dict.reverseDictionary.put(s1, 1000);
+        System.out.printf("Var mı %b\n", ControllerDialog.dict.reverseDictionary.containsKey(s2));
+
+        Integer indisIndis = ControllerDialog.dict.reverseDictionary.get(str);
+        System.out.printf("%d Merhaba dünya\n", indisIndis);
+
+        if (strPro.name.length() < 4) {
             message.point = -3;
             message.word = str + " does not include at least four letters.";
-        }
-        else if( !Dictionary.reverseDictionary.containsKey(str) ) { ////Düzelte ####################
+        } else if (!ControllerDialog.dict.reverseDictionary.containsKey(strPro.name)) { ////Düzelte ####################
+            System.out.printf("%s sözlükte yok ahmetufuk\n", str);
             message.point = -1;
-            message.word  = str + " is not in the dictionary.";
-        }
-        else if(checkLetterNotInBeehive(str)) {
+            message.word = str + " is not in the dictionary.";
+        } else if (checkLetterNotInBeehive(strPro.name)) {
             message.point = -2;
             message.word = str + " includes letters not in the beehive.";
-        }
-        else if(!checkIfCenterLetterIncluded( str)) {
+        } else if (!checkIfCenterLetterIncluded(strPro.name)) {
             message.point = -4;
             message.word = str + " the word does not include center letter.";
-        }
-        else if(checkIfAlreadyFound(str)) { /// burası da hashMap
+        } else if (checkIfAlreadyFound(strPro.name)) { /// burası da hashMap
             message.point = -5;
-            message.word = "The user has already found " + str + " and is not allowed to score it twice.";
-        }
-        else {
-            message.point = str.length() - 3;
-            StringProcessor strPro = new StringProcessor();
-            strPro.name = str;
+            message.word = "The user has already found " + str;
+        } else {
+            message.point = strPro.name.length() - 3;
             if (strPro.countDistinctLetters() == 7) {
                 message.word = "Pangram!";
                 message.point += 7;
@@ -55,14 +78,24 @@ public class Pangram extends Word {
             //Dictionary.game.numberOfWords++;
             //Dictionary.game.pointFromGame += message.point;
 
+            ControllerDialog.pointFromWord = message.point;
+            ControllerDialog.pointFromGame += message.point;
+            ControllerDialog.numberOfWords++;
 
-            int ind = (int) Math.ceil(1.0 * Dictionary.game.pointFromWord / Dictionary.game.maxPoint);
-            message.finish = Dictionary.game.messages[ind];
-            if(Dictionary.game.maxPoint == Dictionary.game.pointFromGame) {
+            int a = Dictionary.reverseDictionary.get(strPro.name);
+            ControllerDialog.beeHiveLetters.foundWords.add(a);
+            ControllerDialog.beeHiveLetters.foundWordsHash.put(strPro.name, a);
+
+
+            int ind = (int) Math.ceil(1.0 * ControllerDialog.pointFromWord / ControllerDialog.maxPoint);
+            message.game = ControllerDialog.messages[ind];
+            if (ControllerDialog.maxPoint == ControllerDialog.pointFromGame) {
                 message.isFinished = true;
                 message.finish = "Congratulations. You have found all words. You are the QUEEN BEE!";
             }
         }
+
+        System.out.printf("Ufuk %s %d %s %s\n", strPro.name, message.point, message.word, message.game);
 
         /*
         System.out.printf("\nLine 265 Pangram\n");
@@ -75,31 +108,130 @@ public class Pangram extends Word {
     }
 
     public boolean checkLetterNotInBeehive(String str) {
-        for(int i = 0; i < str.length(); i++)
-            if(this.name.indexOf( str.charAt(i) ) == -1 )
+        for (int i = 0; i < str.length(); i++)
+            if (this.name.indexOf(str.charAt(i)) == -1)
                 return true;
         return false;
     }
 
     public boolean checkIfCenterLetterIncluded(String str) {
-        if(str.indexOf( this.centerLetter )  == -1)
+        if (str.indexOf(this.centerLetter) == -1)
             return false;
         return true;
     }
 
     public boolean checkIfAlreadyFound(String str) {
-        if(foundWordsHash.containsKey(str))
+        if (foundWordsHash.containsKey(str))
             return true;
         return false;
     }
 
     public Pangram isInThePangramWords(String str, char ch) {
-        for(Pangram p : Dictionary.pangramWords) {
-            if (p.hashCode == this.hashCode && p.centerLetter == this.centerLetter)
+        System.out.printf("Girdi %s %c\n", str, ch);
+        for (Pangram p : Dictionary.pangramWords) {
+            if (p.hashCode == this.hashCode && p.centerLetter == this.centerLetter) {
                 return p;
+            }
         }
         return null;
     }
+
+
+    public Message checkIfAvailableFromPangram2(String str) {
+        //System.out.printf("%s\n", word.name);
+        Message message = new Message();
+        StringProcessor strPro = new StringProcessor();
+        strPro.name = str;
+        strPro.checkWord();
+
+
+            /*
+        boolean b = false;
+        for(int i = 0; i < ControllerDialog.dict.dictionary.size(); i++) {
+            String str2 = ControllerDialog.dict.dictionary.get(i).name;
+
+            //int ind = ControllerDialog.dict.reverseDictionary.get( str2);
+            if(str2.equals(strPro.name)) {
+                b = true;
+                break;
+            }
+    */
+
+        //System.out.printf("%d %s %s %b\n", i, str2, ControllerDialog.dict.dictionary.get(ind).name, ControllerDialog.dict.reverseDictionary.containsKey( str2 ));
+
+    /*
+        System.out.printf("%s %d gelen ahmetten\n", str, str.length());
+
+        System.out.printf("%b %d\n", ControllerDialog.dict.reverseDictionary.containsKey( strPro.name ), ControllerDialog.dict.reverseDictionary.get( strPro.name ));
+
+        String s1 = "AHMETUFUK";
+        String s2 = "AHMETUFUK";
+        ControllerDialog.dict.reverseDictionary.put(s1, 1000);
+        System.out.printf("Var mı %b\n", ControllerDialog.dict.reverseDictionary.containsKey(s2));
+
+        Integer indisIndis = ControllerDialog.dict.reverseDictionary.get(str);
+        System.out.printf("%d Merhaba dünya\n", indisIndis);
+*/
+        if (strPro.name.length() < 4) {
+            message.point = -3;
+            message.word = str + " does not include at least four letters.";
+        } else if (!ControllerDialog.dict.reverseDictionary.containsKey(strPro.name)) { ////Düzelte ####################
+            System.out.printf("%s sözlükte yok ahmetufuk\n", str);
+            message.point = -1;
+            message.word = str + " is not in the dictionary.";
+        } else if (checkLetterNotInBeehive(strPro.name)) {
+            message.point = -2;
+            message.word = str + " includes letters not in the beehive.";
+        } else if (!checkIfCenterLetterIncluded(strPro.name)) {
+            message.point = -4;
+            message.word = str + " the word does not include center letter.";
+        } else if (checkIfAlreadyFound(strPro.name)) { /// burası da hashMap
+            message.point = -5;
+            message.word = "The user has already found " + str ;
+
+        } else {
+            message.point = strPro.name.length() - 3;
+            if (strPro.countDistinctLetters() == 7) {
+                message.word = "Pangram!";
+                message.point += 7;
+            } else {
+                Random rand = new Random();
+                int a = rand.nextInt(3);
+                String[] messages = {"Good!", "Nice!", "Awesome!"};
+                message.game = messages[a];
+            }
+            //Dictionary.game.numberOfWords++;
+            //Dictionary.game.pointFromGame += message.point;
+
+            this.totalPoint += message.point;
+            this.totalNumberOfWords++;
+        }
+        return message;
+    }
+}
+                    /*
+            int a = Dictionary.reverseDictionary.get(strPro.name);
+            ControllerDialog.beeHiveLetters.foundWords.add(a);
+            ControllerDialog.beeHiveLetters.foundWordsHash.put(strPro.name, a);
+*/
+
+            /*
+            int ind = (int) Math.ceil(1.0 * ControllerDialog.pointFromWord / ControllerDialog.maxPoint);
+            message.game = ControllerDialog.messages[ind];
+            if(ControllerDialog.maxPoint == ControllerDialog.pointFromGame) {
+                message.isFinished = true;
+                //message.finish = "Congratulations. You have found all words. You are the QUEEN BEE!";*
+                */
+
+
+        //System.out.printf("Ufuk %s %d %s %s\n", strPro.name, message.point, message.word, message.game);
+
+        /*
+        System.out.printf("\nLine 265 Pangram\n");
+        System.out.printf("#1 %s %c %s\n", this.word, this.centerLetter, word.word);
+        //System.out.printf("#2 %s %s\n", this.message, this);
+        System.out.printf("#2 %d %d\n", this.totalPoint, this.totalNumberOfWords);
+        */
 
 
     /*
@@ -333,7 +465,3 @@ public class Pangram extends Word {
     * Mesajları düzenle
     *
      */
-
-
-
-}
