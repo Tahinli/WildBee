@@ -16,9 +16,10 @@ public class Game {
         //Object
         Main menu = new Main();
         WordPicker wordPicker = new WordPicker();
+        Finish finish = new Finish();
         //Definitions
         System.out.println("Kelime= "+gWord);
-        System.out.println("Ortdaki= "+middle);
+        System.out.println("Ortadaki= "+middle);
         gWord.deleteCharAt(gWord.indexOf(middle.toString()));
         gWord.trimToSize();
         ArrayList<String> givenW = new ArrayList<>();
@@ -43,12 +44,15 @@ public class Game {
         Button btReload = new Button("Reload");
         Button btMain = new Button("Main Menu");
         Label showError = new Label("Welcome To The Our Game");
-        Label lbPoint = new Label();
+        Label lbPoint = new Label("0");
         Label lbPText = new Label("Your Point");
         Label lbP = new Label("Beginner");
+        if (l)
+            lbP.setText("Başlangıç");
         TextField uTxt = new TextField();
         TextArea rTxt = new TextArea();
         ProgressBar pbPoint = new ProgressBar(0.0);
+        Button btClose = new Button("Close");
 
 
 
@@ -147,7 +151,7 @@ public class Game {
         lbPoint.relocate(900,100);
         lbPText.relocate(850,70);
         lbP.relocate(950,20);
-        showError.relocate(300,100);
+        showError.relocate(350,100);
         uTxt.relocate(80,100);
         rTxt.relocate(1000,100);
         pbPoint.relocate(950,70);
@@ -156,6 +160,8 @@ public class Game {
         btEnter.setOnAction(actionEvent -> {
             new Jello(btEnter).setSpeed(1.5).play();
             uTxt.setText(uTxt.getText().replaceAll("[^a-zA-z],[^şçğü]"," "));
+            uTxt.setText(uTxt.getText().replaceAll("-"," "));
+            uTxt.setText(uTxt.getText().replaceAll("_", " "));
             uTxt.setText(uTxt.getText().trim());
             if (uTxt.getText().contains("i"))
                 uTxt.setText(uTxt.getText().replaceAll("i","İ"));
@@ -169,6 +175,9 @@ public class Game {
                 System.out.println(message.point);
                 System.out.println("AHMETTEN GİDEN = " +uTxt.getText());
                 if (message.point>0) {
+                    System.out.printf("$1 %d %d\n", ControllerDialog.pointFromGame, ControllerDialog.maxPoint);
+                    System.out.printf("$2 %s %c\n", ControllerDialog.beeHiveLetters.name, ControllerDialog.beeHiveLetters.centerLetter);
+                    System.out.printf("$3 %d\n", ControllerDialog.beeHiveLetters.setOfWords.size());
                     pbPoint.setProgress((double)ControllerDialog.pointFromGame/ControllerDialog.maxPoint);
                     areaFiller(text, rTxt);
                     uTxt.clear();
@@ -179,8 +188,17 @@ public class Game {
                     showError.setTextFill(Color.DARKCYAN);
                     showError.setStyle("-fx-font-size: 25");
                     lbP.setText(message.game);
+                    System.out.println("UFUKTAN GELEN HABERLER = " + message.game);
                     lbPoint.setText(String.valueOf(ControllerDialog.pointFromGame));
-                    showError.setText("+"+message.point);
+                    showError.setText(message.word+"   "+"+"+message.point);
+                    if (ControllerDialog.pointFromGame == ControllerDialog.maxPoint)
+                    {
+                        finish.finisher(message.finish, stage1, l, btReload);
+                        if (l)
+                            lbP.setText("VAHŞİ ARI");
+                        else
+                        lbP.setText("WILD BEE");
+                    }
                 }
                 else
                 {
@@ -192,16 +210,10 @@ public class Game {
                     showError.setTextFill(Color.RED);
                     showError.setStyle("-fx-font-size: 20");
                     text.clear();
-
-                    //Language
-                    if (l)
-                        showError.setText("TÜRKÇESİ %d");
-                    else
-                        showError.setText(prInfo);
+                    showError.setText(prInfo);
                     uTxt.end();
                     new Pulse(showError).play();
                 }
-                //Language
 
             }
             else
@@ -282,17 +294,12 @@ public class Game {
         });
         btReload.setOnAction((actionEvent -> {
             new Flip(btReload).setSpeed(5).play();
-            uTxt.requestFocus();
-            uTxt.selectEnd();
-            System.out.println(String.valueOf(c));
             if (c)
             {
-                System.out.println("GİRDİM");
                 wordPicker.wp(l,stage1,new Stage(),true);
                 rStage.close();
             }
             else {
-                System.out.println("HOP ELSEDEYİM");
                 rStage.close();
                 menu.callBack(l, stage1, c);
             }
@@ -301,6 +308,7 @@ public class Game {
             menu.visible(stage1);
             rStage.close();
         });
+
         //Language
         if (l)
         {
@@ -325,15 +333,14 @@ public class Game {
             StringBuilder key = new StringBuilder();
             key.append(keyEvent.getCode().toString());
             System.out.println(key);
-            switch (key.toString())
-            {
+            switch (key.toString()) {
                 case "ENTER":
                     btEnter.fire();
                     break;
                 case "BACK_SPACE":
                     btDelete.fire();
                     break;
-                case  "SPACE":
+                case "SPACE":
                     btShuffle.fire();
                     break;
                 case "ALT":
@@ -350,6 +357,8 @@ public class Game {
 
         uTxt.setOnKeyPressed(keyEvent -> {
             uTxt.setText(uTxt.getText().replaceAll("[^a-zA-z],[^şçğü]"," "));
+            uTxt.setText(uTxt.getText().replaceAll("-"," "));
+            uTxt.setText(uTxt.getText().replaceAll("_", " "));
             uTxt.setText(uTxt.getText().trim());
             if (uTxt.getText().contains("i"))
                 uTxt.setText(uTxt.getText().replaceAll("i","İ"));
@@ -392,4 +401,8 @@ public class Game {
     {
         return textField.getText().contains(btm.getText());
     }
+    void btReloadFire(Button btReload){
+        btReload.fire();
+    }
+
 }

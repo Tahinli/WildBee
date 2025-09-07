@@ -1,10 +1,16 @@
-module com.bees.bees {
-    requires javafx.controls;
+module com.bees.bees
+{
     requires javafx.fxml;
-    requires javafx.base;
-    requires javafx.graphics;
-    requires AnimateFX;
+    requires javafx.web;
 
-    opens com.bees.bees;
+    requires org.controlsfx.controls;
+    requires com.dlsc.formsfx;
+    requires validatorfx;
+    requires org.kordamp.ikonli.javafx;
+    requires org.kordamp.bootstrapfx.core;
+    requires eu.hansolo.tilesfx;
+    requires com.almasb.fxgl.all;
+
+    opens com.bees.bees to javafx.fxml;
     exports com.bees.bees;
 }
